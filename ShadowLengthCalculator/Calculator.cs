@@ -39,19 +39,16 @@ namespace ShadowLengthCalculator
             
 
             shadowLength += Math.Abs(segments[0].EndCoord - segments[0].StartCoord);
+            int maximum = segments[0].EndCoord;
 
-            int maximum = int.MinValue;
             for (int i = 0; i < segments.Count - 1; i++)
             {
                 if (segments[i + 1].StartCoord > segments[i].EndCoord)
-                {
                     shadowLength += Math.Abs(segments[i + 1].EndCoord - segments[i + 1].StartCoord);
-                    maximum = segments[i+1].EndCoord;
-                }
                 else if (segments[i + 1].EndCoord > maximum)
-                {
                     shadowLength += Math.Abs(segments[i + 1].EndCoord - maximum);
-                }
+                
+                maximum = segments[i+1].EndCoord;
             }
 
             return shadowLength;
