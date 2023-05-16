@@ -13,8 +13,16 @@ namespace ShadowLengthCalculator
 
         public Segment(int startCoord,int endCoord)
         {
-            StartCoord = startCoord;
-            EndCoord = endCoord;
+            if (startCoord < endCoord)
+            {
+                StartCoord = startCoord;
+                EndCoord = endCoord;
+            }
+            else
+            {
+                StartCoord = endCoord;
+                EndCoord = startCoord;
+            }
         }
     }
     public class Calculator
@@ -27,16 +35,23 @@ namespace ShadowLengthCalculator
         public int Calc(List<Segment> segments)
         {
             int shadowLength = 0;
-            segments.OrderBy(x => x.StartCoord);
+            segments = segments.OrderBy(x => x.StartCoord).ToList();
+            
 
             shadowLength += Math.Abs(segments[0].EndCoord - segments[0].StartCoord);
 
+            int maximum = int.MinValue;
             for (int i = 0; i < segments.Count - 1; i++)
             {
-                if (segments[i + 1].StartCoord >= segments[i].EndCoord)
+                if (segments[i + 1].StartCoord > segments[i].EndCoord)
+                {
                     shadowLength += Math.Abs(segments[i + 1].EndCoord - segments[i + 1].StartCoord);
-                else if (segments[i + 1].EndCoord > segments[i].EndCoord)
-                    shadowLength += Math.Abs(segments[i + 1].EndCoord - segments[i].EndCoord);
+                    maximum = segments[i+1].EndCoord;
+                }
+                else if (segments[i + 1].EndCoord > maximum)
+                {
+                    shadowLength += Math.Abs(segments[i + 1].EndCoord - maximum);
+                }
             }
 
             return shadowLength;
