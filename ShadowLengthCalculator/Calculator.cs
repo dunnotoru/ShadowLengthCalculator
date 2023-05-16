@@ -33,11 +33,10 @@ namespace ShadowLengthCalculator
 
             for (int i = 0; i < segments.Count - 1; i++)
             {
-                if (segments[i + 1].StartCoord < segments[i].EndCoord)
+                if (segments[i + 1].StartCoord >= segments[i].EndCoord)
+                    shadowLength += segments[i + 1].EndCoord - segments[i + 1].StartCoord;
+                else if (segments[i + 1].EndCoord > segments[i].EndCoord)
                     shadowLength += segments[i + 1].EndCoord - segments[i].EndCoord;
-                else if (segments[i + 1].StartCoord > segments[i].EndCoord)
-                    shadowLength += segments[i + 1].EndCoord - segments[i+1].StartCoord;
-                else if()
             }
 
             return shadowLength;
