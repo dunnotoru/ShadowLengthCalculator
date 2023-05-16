@@ -30,12 +30,14 @@ namespace ShadowLengthCalculator
             segments.OrderBy(x => x.StartCoord);
 
             shadowLength += segments[0].EndCoord - segments[0].StartCoord;
-            for (int i = 1; i < segments.Count - 1; i++)
+
+            for (int i = 0; i < segments.Count - 1; i++)
             {
-                if (segments[i + 1].StartCoord < segments[i].StartCoord)
-                    shadowLength += segments[i + 1].EndCoord - segments[i].StartCoord;
+                if (segments[i + 1].StartCoord < segments[i].EndCoord)
+                    shadowLength += segments[i + 1].EndCoord - segments[i].EndCoord;
                 else if (segments[i + 1].StartCoord > segments[i].EndCoord)
-                    shadowLength += segments[i + 1].EndCoord - segments[i].StartCoord;
+                    shadowLength += segments[i + 1].EndCoord - segments[i+1].StartCoord;
+                else if()
             }
 
             return shadowLength;
