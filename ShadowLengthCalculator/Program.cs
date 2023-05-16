@@ -16,7 +16,7 @@ namespace ShadowLengthCalculator
             Calculator calculator = new Calculator();
             Console.WriteLine(calculator.Calc(segments));
 
-            PolishNotationConverter pol = new PolishNotationConverter("15/(7-(1+1))*3-(2+(1+1))*15/(7-(200+1))*3-(2+(1+1))*(15/(7-(1+1))*3-(2+(1+1))+15/(7-(1+1))*3-(2+(1+1)))");
+            PolishNotationConverter pol = new PolishNotationConverter("2+2");
             Console.WriteLine(pol.PostfixExpression);
             Console.WriteLine(pol.Calculate());
             
