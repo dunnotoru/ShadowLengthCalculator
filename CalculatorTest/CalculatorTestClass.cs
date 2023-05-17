@@ -69,10 +69,10 @@ namespace CalculatorTest
                 new Segment(15,10),
             };
 
-            double expected = 11;
             Calculator calculator = new Calculator();
             double actual = calculator.Calc(segments);
 
+            double expected = 11;
             Assert.AreEqual(expected, actual);
         }
     }
