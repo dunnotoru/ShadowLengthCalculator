@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,10 +9,10 @@ namespace ShadowLengthCalculator
 {
     public struct Segment
     {
-        public int StartCoord;
-        public int EndCoord;
+        public double StartCoord;
+        public double EndCoord;
 
-        public Segment(int startCoord,int endCoord)
+        public Segment(double startCoord,double endCoord)
         {
             if (startCoord < endCoord)
             {
@@ -32,14 +33,14 @@ namespace ShadowLengthCalculator
 
         }
 
-        public int Calc(List<Segment> segments)
+        public double Calc(List<Segment> segments)
         {
-            int shadowLength = 0;
+            double shadowLength = 0;
             segments = segments.OrderBy(x => x.StartCoord).ToList();
             
 
             shadowLength += Math.Abs(segments[0].EndCoord - segments[0].StartCoord);
-            int maximum = segments[0].EndCoord;
+            double maximum = segments[0].EndCoord;
 
             for (int i = 0; i < segments.Count - 1; i++)
             {
