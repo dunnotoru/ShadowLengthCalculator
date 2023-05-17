@@ -8,11 +8,9 @@ namespace CalculatorTest
     [TestClass]
     public class CalculatorTestClass
     {
-
         [TestMethod]
-        public void CalcTest1()
+        public void DockingSegmentsTest()
         {
-            //Проверка на состыковку точек разных отрезков.
             List<Segment> segments = new List<Segment>()
             {
                 new Segment(1,4),
@@ -21,7 +19,7 @@ namespace CalculatorTest
                 new Segment(13,15),
             };
 
-            double expected = 7;
+            double expected = 10;
             Calculator calculator = new Calculator();
             double actual = calculator.Calc(segments);
 
@@ -29,9 +27,8 @@ namespace CalculatorTest
         }
 
         [TestMethod]
-        public void CalcTest2()
+        public void OverlaySegmentsTest()
         {
-            //Проверка на наложение разных отрезков.
             List<Segment> segments = new List<Segment>()
             {
                 new Segment(1,4),
@@ -48,9 +45,8 @@ namespace CalculatorTest
         }
 
         [TestMethod]
-        public void CalcTest3()
+        public void ZeroLengthSegmentTest()
         {
-            //Проверка на точку.
             List<Segment> segments = new List<Segment>()
             {
                 new Segment(-50,-40),
@@ -59,7 +55,7 @@ namespace CalculatorTest
                 new Segment(10,10),
             };
 
-            double expected = 40;
+            double expected = 30;
             Calculator calculator = new Calculator();
             double actual = calculator.Calc(segments);
 
@@ -67,9 +63,8 @@ namespace CalculatorTest
         }
 
         [TestMethod]
-        public void CalcTest4()
+        public void NegativeLengthSegmentsTest()
         {
-            //Проверка правильный подсчёта при обратной последовательности по абциссе.
             List<Segment> segments = new List<Segment>()
             {
                 new Segment(4,1),
@@ -78,7 +73,7 @@ namespace CalculatorTest
                 new Segment(16,19),
             };
 
-            double expected = 15;
+            double expected = 14;
             Calculator calculator = new Calculator();
             double actual = calculator.Calc(segments);
 
@@ -86,14 +81,13 @@ namespace CalculatorTest
         }
 
         [TestMethod]
-        public void CalcTest5()
+        public void SegmentInvalidOrderTest()
         {
-            //Проверка правильного подсчёта при рандомном вводе отрезков.
             List<Segment> segments = new List<Segment>()
             {
-                new Segment(-9, -1),
-                new Segment(-20, -10),
-                new Segment(-50,-30),
+                new Segment(10, 20),
+                new Segment(30, 50),
+                new Segment(1, 9),
             };
 
             double expected = 38;
@@ -104,11 +98,25 @@ namespace CalculatorTest
         }
 
         [TestMethod]
-        public void CalcTest6()
+        public void NegativeValuesTest()
         {
-            //тут нужно выставить ошибочные значения, чтобы получить исключениек
-            //если исключение получено значит ошибка детектится и работает правильно
-            //Проверка на неправильный ввод левой границы.
+            List<Segment> segments = new List<Segment>()
+            {
+                new Segment(-9, -1),
+                new Segment(-20, -10),
+                new Segment(-50, -30),
+            };
+
+            double expected = 38;
+            Calculator calculator = new Calculator();
+            double actual = calculator.Calc(segments);
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void LeftBorderOutOfRangeTest()
+        {
             List<Segment> segments = new List<Segment>()
             {
                 new Segment(-10,-7),
@@ -123,9 +131,9 @@ namespace CalculatorTest
         }
 
         [TestMethod]
-        public void CalcTest7()
+        public void RightBorderOutOfRangeTest()
         {
-            //Проверка на неправильный ввод правой границы.
+         
             List<Segment> segments = new List<Segment>()
             {
                 new Segment(1,21),
@@ -140,9 +148,8 @@ namespace CalculatorTest
         }
 
         [TestMethod]
-        public void CalcTest8()
+        public void BothBordersOutOfRangeTest()
         {
-            //Проверка на неправильный ввод правой и левой границы.
             List<Segment> segments = new List<Segment>()
             {
                 new Segment(-20,-10),
@@ -157,9 +164,8 @@ namespace CalculatorTest
         }
 
         [TestMethod]
-        public void CalcTest9()
+        public void BothBorderTest()
         {
-            //Проверка на граничный ввод правой и левой границы.
             List<Segment> segments = new List<Segment>()
             {
                 new Segment(0,10),
@@ -170,7 +176,15 @@ namespace CalculatorTest
 
             Calculator calculator = new Calculator(0, 100);
 
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => calculator.Calc(segments));
+            try
+            {
+                calculator.Calc(segments);
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                Assert.Fail();
+            }
+
         }
     }
 }

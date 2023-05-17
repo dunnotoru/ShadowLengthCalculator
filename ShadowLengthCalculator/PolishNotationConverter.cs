@@ -19,7 +19,7 @@ namespace ShadowLengthCalculator
             { '*', 2 },
             { '/', 2 },
             { '^', 3 },
-            { '~', 4 }  //	Унарный минус
+            { '~', 4 } 
         };
 
         public PolishNotationConverter(string expression)

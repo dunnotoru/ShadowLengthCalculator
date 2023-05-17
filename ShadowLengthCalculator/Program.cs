@@ -8,10 +8,10 @@ namespace ShadowLengthCalculator
         {
             List<Segment> segments = new List<Segment>()
             {
-                new Segment(-50,-30),
-                new Segment(-40,-10),
-                new Segment(-10,10),
-                new Segment(10,40),
+                new Segment(4,1),
+                new Segment(3, 7),
+                new Segment(10,15),
+                new Segment(16,19),
             };
             Calculator calculator = new Calculator();
             Console.WriteLine(calculator.Calc(segments));
