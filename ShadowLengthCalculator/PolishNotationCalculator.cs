@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace ShadowLengthCalculator
 {
-    public class PolishNotationConverter
+    public class PolishNotationCalculator
     {
         public string PostfixExpression { get; set; }
         public string InfixExpression { get; set; }
@@ -22,10 +23,13 @@ namespace ShadowLengthCalculator
             { '~', 4 } 
         };
 
-        public PolishNotationConverter(string expression)
+        public PolishNotationCalculator(string expression)
         {
-            InfixExpression = expression;
-            PostfixExpression = ConvertToPostfix(InfixExpression);
+            if (!Regex.IsMatch(expression, @"^[\d\-+\*\/\s\(\)\^\.\,]+$"))
+                throw new ArgumentException("Input string contains invalid characters");
+
+            InfixExpression = expression.Replace(" ", "").Replace(".", ",");
+            PostfixExpression = ConvertToPostfix();
         }
 
         public string GetNumberString(string expression, ref int position)
@@ -39,6 +43,10 @@ namespace ShadowLengthCalculator
                 {
                     strNumber.Append(number);
                 }
+                else if (number == ',')
+                {
+                    strNumber.Append(number);
+                }
                 else
                 {
                     position--;
@@ -49,7 +57,7 @@ namespace ShadowLengthCalculator
             return strNumber.ToString();
         }
 
-        public string ConvertToPostfix(string infixExpression)
+        public string ConvertToPostfix()
         {
             string postfixExpression = "";
             Stack<char> stack = new Stack<char>();
@@ -93,8 +101,9 @@ namespace ShadowLengthCalculator
 
         public double Calculate()
         {
-            Stack<double> locals = new();
+            Stack<double> locals = new Stack<double>();
             int counter = 0;
+
             for (int i = 0; i < PostfixExpression.Length; i++)
             {
                 char c = PostfixExpression[i];
@@ -102,7 +111,7 @@ namespace ShadowLengthCalculator
                 if (Char.IsDigit(c))
                 {
                     string number = GetNumberString(PostfixExpression, ref i);
-                    locals.Push(Convert.ToDouble(number));
+                    locals.Push(Double.Parse(number));
                 }
                 else if (OperationPriority.ContainsKey(c))
                 {
@@ -119,7 +128,6 @@ namespace ShadowLengthCalculator
                     first = locals.Count > 0 ? locals.Pop() : 0;
 
                     locals.Push(Execute(c, first, second));
-                    Console.WriteLine($"{counter}) {first} {c} {second} = {locals.Peek()}");
                 }
             }
 
