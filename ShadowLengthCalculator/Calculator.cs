@@ -14,30 +14,27 @@ namespace ShadowLengthCalculator
 
         public Segment(double startCoord,double endCoord)
         {
-            if (startCoord < endCoord)
-            {
-                StartCoord = startCoord;
-                EndCoord = endCoord;
-            }
-            else
-            {
-                StartCoord = endCoord;
-                EndCoord = startCoord;
-            }
+            StartCoord = startCoord <= endCoord ? startCoord : endCoord;
+            EndCoord = endCoord >= startCoord ? endCoord : startCoord;
         }
     }
     public class Calculator
     {
-        public Calculator()
-        {
+        public double LeftBorder { get; set;} 
+        public double RightBorder { get; set;}
 
+        public Calculator(double leftBorder = Double.MinValue, double rightBorder = Double.MaxValue)
+        {
+            LeftBorder = leftBorder <= rightBorder ? leftBorder : rightBorder;
+            RightBorder = rightBorder >= leftBorder ? rightBorder : leftBorder;
         }
 
         public double Calc(List<Segment> segments)
         {
             double shadowLength = 0;
             segments = segments.OrderBy(x => x.StartCoord).ToList();
-            
+            if(segments.Count(x => x.StartCoord < LeftBorder || x.EndCoord > RightBorder) > 0)
+                throw new ArgumentOutOfRangeException();
 
             shadowLength += Math.Abs(segments[0].EndCoord - segments[0].StartCoord);
             double maximum = segments[0].EndCoord;

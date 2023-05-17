@@ -1,6 +1,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ShadowLengthCalculator;
 using System.Collections.Generic;
+using System;
 
 namespace CalculatorTest
 {
@@ -10,19 +11,19 @@ namespace CalculatorTest
         [TestMethod]
         public void CalcTest1()
         {
+            //тут нужно выставить ошибочные значения, чтобы получить исключениек
+            //если исключение получено значит ошибка детектится и работает правильно
             List<Segment> segments = new List<Segment>()
             {
-                new Segment(-50,-30),
+                new Segment(0.1,-30),
                 new Segment(-40,-10),
                 new Segment(-10,10),
                 new Segment(10,40),
             };
 
-            double expected = 90;
-            Calculator calculator = new Calculator();
-            double actual = calculator.Calc(segments);
+            Calculator calculator = new Calculator(0, 100);
 
-            Assert.AreEqual(expected, actual);
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => calculator.Calc(segments));
         }
 
         [TestMethod]
